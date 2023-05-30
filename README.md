@@ -4,7 +4,7 @@
 # 
 
 ## Working website:
-### https://shaycohenn.github.io/Library-project-front/
+### https://shaycohenn.github.io/Library-project/
 #
 ## Backend website contains the raw data in JSON:
 ### https://project-test-utrw.onrender.com  
