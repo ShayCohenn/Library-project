@@ -32,8 +32,6 @@ The type determines the maximum time that the book can be loaned for
  - ### virtualenv env
  - ### .\env\Scripts\activate
  - ### pip install -r requirements.txt
- - ### cd .\back
- - ### py .\app.py
 #
  ## *Importent note*
  ### *The front is connected to the live server on render cloud and not to the local host from the flask app*
