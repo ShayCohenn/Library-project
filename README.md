@@ -7,7 +7,7 @@
 ### https://shaycohenn.github.io/Library-project-front/
 #
 ## Backend website contains the raw data in JSON:
-### https://project-test-utrw.onrender.com 
+### https://project-test-utrw.onrender.com  *loading the site may take a few moments if the server is down*
 
 
 ## Description
