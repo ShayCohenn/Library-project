@@ -1,6 +1,14 @@
 # Library Name
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+# 
+
+## Working website:
+### https://shaycohenn.github.io/Library-project-front/
+#
+## Backend website contains the raw data in JSON:
+### https://project-test-utrw.onrender.com 
+
 
 ## Description
 A simple website for maneging a library.
@@ -28,11 +36,3 @@ The type determines the maximum time that the book can be loaned for
 #
  ## *Importent note*
  ### *The front is connected to the live server on render cloud and not to the local host from the flask app*
-
-# 
-
-## Working website:
-### https://shaycohenn.github.io/Library-project-front/
-#
-## Backend website contains the raw data in JSON:
-### https://project-test-utrw.onrender.com 
