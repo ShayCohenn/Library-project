@@ -1,4 +1,4 @@
-# Library Name
+# Books.com - Library management project 
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 # 
