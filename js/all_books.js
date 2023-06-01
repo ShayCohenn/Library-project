@@ -11,20 +11,20 @@ let result_found = 0;
 
 // 1 ------------------------ Update the status color -------------------------
 const updateColors = () => {
-    const status_columns = document.getElementsByClassName("stts");
-    for (const column of status_columns) {
-        if (column.textContent === "Available") {
-            column.style.color = "green";
-        } else if (column.textContent === "Unavailable") {
-            column.style.color = "red";
-        } else if (column.textContent === "on loan") {
-            column.style.color = "steelblue";
+    const rows = document.querySelectorAll("#table_body tr");
+    for (const row of rows) {
+        const statusColumn = row.querySelector(".stts");
+        if (statusColumn.textContent === "Available") {
+            statusColumn.style.color = "green";
+        } else if (statusColumn.textContent === "Unavailable") {
+            statusColumn.style.color = "red";
+        } else if (statusColumn.textContent === "on loan") {
+            statusColumn.style.color = "steelblue";
         } else {
-            column.style.color = "gray";
-            const deleteButton = column.parentNode.querySelector(".delete-btn");
-           
-                deleteButton.classList.add("disabled");
-            
+            row.style.color = "gray";
+            const deleteButton = statusColumn.parentNode.querySelector(".delete-btn");
+
+            deleteButton.classList.add("disabled");
         }
     }
 };

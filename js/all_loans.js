@@ -12,18 +12,19 @@ let result_found = 0;
 // 1 ------------------------------------ UPDATE STATUS COLORS ----------------------------------------------
 
 const updateColors = () => {
-  const statusColumns = document.getElementsByClassName("stts");
+  const rows = document.querySelectorAll("#table_body tr");
   let lateCount = 0; // Counter for late loans
 
-  for (const column of statusColumns) {
-    if (column.textContent === "on time") {
-      column.style.color = "green";
-    } else if (column.textContent === "Late") {
-      column.style.color = "red";
+  for (const row of rows) {
+    const statusColumn = row.querySelector(".stts");
+    if (statusColumn.textContent === "on time") {
+      statusColumn.style.color = "green";
+    } else if (statusColumn.textContent === "Late") {
+      statusColumn.style.color = "red";
       lateCount++; // Increment the late count
     } else {
-      column.style.color = "gray";
-      const returnButton = column.parentNode.querySelector(".return-button");
+      row.style.color = "gray";
+      const returnButton = statusColumn.parentNode.querySelector(".return-button");
       returnButton.classList.add("disabled");
     }
   }
@@ -32,7 +33,7 @@ const updateColors = () => {
   if (lateCount > 0)
     late_counter.textContent = `There are ${lateCount} late loans`; // late_counter is the id of the div that displays the counter
   else
-  late_counter.textContent = ''
+    late_counter.textContent = ''
 };
 
 // 2 ---------------------------------------------- RETURN A LOAN ----------------------------------------------------
@@ -120,64 +121,64 @@ const fetchBookData = async (bookID) => {
 // 4 ----------------------------------------------- FILTER TABLE  ----------------------------------------------
 
 const filterTable = () => {
-    const searchValue = search.value.toLowerCase();
-    const search_filter = Array.from(document.querySelectorAll('.top-row input:checked')).map(checkbox => checkbox.id);
-    const status_filter = Array.from(document.querySelectorAll('.bottom-row input:checked')).map(checkbox => checkbox.id)
-    const tableRows = document.querySelectorAll("#table_body tr");
-    result_found = 0
-  
-    tableRows.forEach((row) => {
-      const columns = row.getElementsByTagName("td");
-      let matchFound = false;
-      let statusFound = false; // Initialize to false
-  
-      const columns_array = Array.from(columns);
-      columns_array.forEach((column) => {
-        const column_value = column.textContent.toLowerCase();
-        // If no check box was selected
-        if (search_filter.length === 0 && column_value.includes(searchValue)) {
-          matchFound = true;
-        } else if (search_filter.length > 0) {
-          if (((search_filter.includes("loan_id") && columns_array[0].textContent === searchValue) || searchValue === "") ||  // Filter the search bar
-            ((search_filter.includes("customer_id") && columns_array[1].textContent === searchValue) || searchValue === "") ||
-            ((search_filter.includes("cust_email") && columns_array[3].textContent.toLowerCase().includes(searchValue)) ||
+  const searchValue = search.value.toLowerCase();
+  const search_filter = Array.from(document.querySelectorAll('.top-row input:checked')).map(checkbox => checkbox.id);
+  const status_filter = Array.from(document.querySelectorAll('.bottom-row input:checked')).map(checkbox => checkbox.id)
+  const tableRows = document.querySelectorAll("#table_body tr");
+  result_found = 0
+
+  tableRows.forEach((row) => {
+    const columns = row.getElementsByTagName("td");
+    let matchFound = false;
+    let statusFound = false; // Initialize to false
+
+    const columns_array = Array.from(columns);
+    columns_array.forEach((column) => {
+      const column_value = column.textContent.toLowerCase();
+      // If no check box was selected
+      if (search_filter.length === 0 && column_value.includes(searchValue)) {
+        matchFound = true;
+      } else if (search_filter.length > 0) {
+        if (((search_filter.includes("loan_id") && columns_array[0].textContent === searchValue) || searchValue === "") ||  // Filter the search bar
+          ((search_filter.includes("customer_id") && columns_array[1].textContent === searchValue) || searchValue === "") ||
+          ((search_filter.includes("cust_email") && columns_array[3].textContent.toLowerCase().includes(searchValue)) ||
             ((search_filter.includes("book_id") && columns_array[4].textContent === searchValue) || searchValue === "")) ||
-            (search_filter.includes("customer_name") && columns_array[2].textContent.toLowerCase().includes(searchValue)) ||
-            (search_filter.includes("book_name") && columns_array[5].textContent.toLowerCase().includes(searchValue)) ||
-            (search_filter.includes("isbn") && columns_array[6].textContent.toLowerCase().includes(searchValue))) {
-            matchFound = true;
-          }
+          (search_filter.includes("customer_name") && columns_array[2].textContent.toLowerCase().includes(searchValue)) ||
+          (search_filter.includes("book_name") && columns_array[5].textContent.toLowerCase().includes(searchValue)) ||
+          (search_filter.includes("isbn") && columns_array[6].textContent.toLowerCase().includes(searchValue))) {
+          matchFound = true;
         }
-      });
-  
-      // Check the status filter if any checkbox is checked
-      if (status_filter.length > 0) {
-        const status_column = row.querySelector(".stts"); // Checking the status column
-        if ((status_filter.includes("on_time_checkbox") && status_column && status_column.textContent === "on time") ||
-          (status_filter.includes("late_checkbox") && status_column && status_column.textContent === "Late") ||
-          (status_filter.includes("returned_checkbox") && status_column && status_column.textContent === "returned")) {
-          statusFound = true;
-        }
-      } else {
-        // If no status filter checkbox is checked, consider it as a match
-        statusFound = true;
-      }
-  
-      // Show/hide the row based on the search result and status filter
-      if (matchFound && statusFound) {
-        row.style.display = "";
-        result_found++
-      } else {
-        row.style.display = "none";
       }
     });
-    res_found.textContent = `${result_found} results found`;
-    if (result_found === 0) {
-        no_res_found.textContent = "Didn't find anything :/"
-    }
-  };
 
-  // 5 --------------------------------------- ADD EVENT LISTENERS AND EXECUTE LOAD_DATA() --------------------------------------
+    // Check the status filter if any checkbox is checked
+    if (status_filter.length > 0) {
+      const status_column = row.querySelector(".stts"); // Checking the status column
+      if ((status_filter.includes("on_time_checkbox") && status_column && status_column.textContent === "on time") ||
+        (status_filter.includes("late_checkbox") && status_column && status_column.textContent === "Late") ||
+        (status_filter.includes("returned_checkbox") && status_column && status_column.textContent === "returned")) {
+        statusFound = true;
+      }
+    } else {
+      // If no status filter checkbox is checked, consider it as a match
+      statusFound = true;
+    }
+
+    // Show/hide the row based on the search result and status filter
+    if (matchFound && statusFound) {
+      row.style.display = "";
+      result_found++
+    } else {
+      row.style.display = "none";
+    }
+  });
+  res_found.textContent = `${result_found} results found`;
+  if (result_found === 0) {
+    no_res_found.textContent = "Didn't find anything :/"
+  }
+};
+
+// 5 --------------------------------------- ADD EVENT LISTENERS AND EXECUTE LOAD_DATA() --------------------------------------
 
 search.addEventListener("input", filterTable);
 

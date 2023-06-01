@@ -1,39 +1,48 @@
 /*
-1 → Getting the client's id stored in local storage
-2 → Loading its data in the page
-3 → Update customer function
-4 → Edit button functionality
-5 → Define the toastifies
+1 → Getting the client's id stored in local storage and loading its data in the page
+2 → Update customer function
+3 → Edit button functionality
+4 → Define the toastifies
 */
 
 const MY_SERVER = `https://project-test-utrw.onrender.com`;
+let current_phone_num = ""
+let current_email = ""
+// 1 --------------------------------- LOAD CUSTOMER DATA FROM LOCAL STORAGE -----------------------------
 // Retrieve the customer ID from localStorage
 const customerId = localStorage.getItem("customerId");
-// Check if the customer ID exists
-// --------------------------------- LOAD CUSTOMER DATA FROM LOCAL STORAGE -----------------------------
 const get_customers_data = async () => {
+    // Check if the customer ID exists
     if (customerId) {
         const customers_info = await axios.get(`${MY_SERVER}/clients/${customerId}`);
         name_input.value = customers_info.data.name;
         email_input.value = customers_info.data.email;
+        current_email = customers_info.data.email;
         phone_num_input.value = customers_info.data.phone_num;
+        current_phone_num = customers_info.data.phone_num;
         address_input.value = customers_info.data.address;
         birthdate_input.value = customers_info.data.birthDate;
+        (customers_info.data.status == "Active") ? Active.checked = true : Inactive.checked = true
     }
 };
+get_customers_data();
 // ------------------------------------------- UPDATE CUSTOMER ------------------------------------
 const update_customer = async () => {
     if (!isNaN(phone_num_input.value) && confirm_checkbox.checked) {
         clients = await axios.get(MY_SERVER + "/clients/all")
         existing_phone_numbers = clients.data.map(client => client.phone_num)
+        existing_emails = clients.data.map(client => client.email)
+        const updated_status = ((Active.checked) ? 'Active' : 'Inactive')
         const data = {
             name: name_input.value,
             email: email_input.value,
             phone_num: phone_num_input.value,
             address: address_input.value,
-            birthDate: birthdate_input.value
+            birthDate: birthdate_input.value,
+            status: updated_status
         }
-        if (!existing_phone_numbers.includes(phone_num_input.value)) { // Check if phone number is in use
+        if ((!existing_phone_numbers.includes(phone_num_input.value) && !existing_emails.includes(email_input.value)) ||
+            (current_phone_num == phone_num_input.value && current_email == email_input.value)) { // Check if phone number / email in use
             try {
                 const response = await axios.put(`${MY_SERVER}/clients/${customerId}/edit`, data);
                 // Handle the successful response here
@@ -46,7 +55,7 @@ const update_customer = async () => {
                 // Perform error handling or display an error message to the user
             }
         }
-        else{
+        else {
             toast_error("Phone number in use!")
         }
 
@@ -65,7 +74,6 @@ const enableEdit = (inputId, btn) => {
     inputField.style.border = "2px solid steelblue"
     btn.style.display = "none"
 };
-get_customers_data();
 // ------------------------------ DEFINE THE TOASTIFY -----------------------------
 const toast_success = (message) => {
     Toastify({

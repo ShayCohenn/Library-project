@@ -19,6 +19,7 @@ const updateColors = () => {
             row.classList.remove("disabled");
             statusColumn.style.color = "green";
         } else {
+            row.style.color = "gray"
             row.classList.add("disabled");
         }
     }
