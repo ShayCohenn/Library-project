@@ -6,7 +6,7 @@
 ## Working website:
 ### https://shaycohenn.github.io/Library-project/
 #
-## Backend website contains the raw data in JSON:
+## The API URL:
 ### https://project-test-utrw.onrender.com  
 #### (*loading the site may take a few moments if the server is down*)
 
